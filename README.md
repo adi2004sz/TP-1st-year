@@ -1,2 +1,2 @@
 # TP-1st-year
-lorem ipsum
+Teme rezolvate la Tehnici de Programare in anul 1
