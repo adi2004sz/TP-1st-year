@@ -1,0 +1,83 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+// Aplicația 9.4: Se considera o lista liniara dublu inlantuita cu numar par de noduri. Sa se scrie o functie care
+// primeste ca parametru adresa primului nod al listei si interschimba primul nod cu cel de-al doilea, al treilea cu cel
+// de-al patrulea si asa mai departe.
+
+
+typedef struct Nod {
+    int val;
+    struct Nod *prev;
+    struct Nod *next;
+} Nod;
+
+Nod* adaugaLaSfarsit(Nod *head, int val) {
+    Nod *nou = (Nod *)malloc(sizeof(Nod));
+    if (nou == NULL) {
+        exit(EXIT_FAILURE);
+    }
+    nou->val = val;
+    nou->prev = NULL;
+    nou->next = NULL;
+    if (head == NULL) {
+        return nou;
+    }
+    Nod *temp = head;
+    while (temp->next != NULL) {
+        temp = temp->next;
+    }
+    temp->next = nou;
+    nou->prev = temp;
+    return head;
+}
+
+void afisareLista(Nod *head, FILE *fout) {
+    Nod *temp = head;
+    while (temp != NULL) {
+        fprintf(fout, "%d ", temp->val);
+        temp = temp->next;
+    }
+    fprintf(fout, "\n");
+}
+
+void interschimbaPerechi(Nod *head) {
+    Nod *temp = head;
+    while (temp != NULL && temp->next != NULL) {
+        int aux = temp->val;
+        temp->val = temp->next->val;
+        temp->next->val = aux;
+        temp = temp->next->next;
+    }
+}
+
+int main() {
+    FILE *fin = fopen("date.in", "r");
+    FILE *fout = fopen("date.out", "w");
+    if (fin == NULL || fout == NULL) {
+        perror("Eroare la deschiderea fisierului");
+        return EXIT_FAILURE;
+    }
+
+    Nod *lista = NULL;
+    int num;
+    while (fscanf(fin, "%d", &num) != EOF) {
+        lista = adaugaLaSfarsit(lista, num);
+    }
+
+    interschimbaPerechi(lista);
+
+    afisareLista(lista, fout);
+
+    fclose(fin);
+    fclose(fout);
+
+    // free
+    while (lista != NULL) {
+        Nod *temp = lista;
+        lista = lista->next;
+        free(temp);
+    }
+
+    return 0;
+}
