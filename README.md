@@ -1,2 +1,3 @@
 # TP-1st-year
-Teme rezolvate la Tehnici de Programare in anul 1
+Poblems solved in Programming Techniques in first year (semester 2)
+Programming language used : C
